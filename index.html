@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PC-Komponenten Guide & Budgetplaner</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --accent-color: #38bdf8;
+            --text-color: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            border-radius: 12px;
+            margin-bottom: 30px;
+            border: 1px solid #334155;
+        }
+
+        header h1 {
+            color: var(--accent-color);
+            margin-bottom: 10px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Slider Sektion */
+        .budget-section {
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 40px;
+            border: 1px solid #334155;
+            text-align: center;
+        }
+
+        .slider-container {
+            margin: 20px 0;
+        }
+
+        input[type=range] {
+            width: 100%;
+            max-width: 600px;
+            height: 8px;
+            background: #334155;
+            border-radius: 5px;
+            outline: none;
+            accent-color: var(--accent-color);
+        }
+
+        .budget-display {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--accent-color);
+            margin-top: 10px;
+        }
+
+        /* Budget Ergebnisse Tabelle/Grid */
+        .price-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .price-card {
+            background: #111827;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid var(--accent-color);
+        }
+
+        .price-card h4 {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .price-card p {
+            font-size: 1.4rem;
+            font-weight: bold;
+        }
+
+        /* Komponenten Wissensbasis */
+        .components-title {
+            margin-bottom: 20px;
+            border-bottom: 2px solid #334155;
+            padding-bottom: 10px;
+        }
+
+        .component-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+        }
+
+        .component-card {
+            background-color: var(--card-bg);
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid #334155;
+            transition: transform 0.2s;
+        }
+
+        .component-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-color);
+        }
+
+        .component-card h3 {
+            color: var(--accent-color);
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .badge {
+            font-size: 0.8rem;
+            background: #334155;
+            padding: 4px 8px;
+            border-radius: 4px;
+            color: var(--text-color);
+        }
+
+        .component-card h4 {
+            margin-top: 15px;
+            color: #cbd5e1;
+            font-size: 0.95rem;
+        }
+
+        .component-card p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 5px;
+            padding: 30px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>HardwareMaster: PC-Komponenten Guide</h1>
+            <p>Alles, was du über PC-Teile wissen musst & der perfekte Budget-Rechner für deinen Eigenbau.</p>
+        </header>
+
+        <section class="budget-section">
+            <h2>Interaktiver Budget-Planer</h2>
+            <p>Bewege den Slider, um zu sehen, wie viel Geld du für jede Komponente einplanen solltest.</p>
+            <div class="slider-container">
+                <input type="range" id="budgetSlider" min="400" max="3000" step="50" value="1000">
+                <div class="budget-display"><span id="budgetValue">1000</span> €</div>
+            </div>
+
+            <div class="price-grid">
+                <div class="price-card">
+                    <h4>Grafikkarte (GPU)</h4>
+                    <p id="cost-gpu">350 €</p>
+                </div>
+                <div class="price-card">
+                    <h4>Prozessor (CPU)</h4>
+                    <p id="cost-cpu">200 €</p>
+                </div>
+                <div class="price-card">
+                    <h4>Mainboard</h4>
+                    <p id="cost-mb">120 €</p>
+                </div>
+                <div class="price-card">
+                    <h4>Arbeitsspeicher (RAM)</h4>
+                    <p id="cost-ram">80 €</p>
+                </div>
+                <div class="price-card">
+                    <h4>Speicher (SSD)</h4>
+                    <p id="cost-ssd">80 €</p>
+                </div>
+                <div class="price-card">
+                    <h4>Netzteil (PSU)</h4>
+                    <p id="cost-psu">90 €</p>
+                </div>
+                <div class="price-card">
+                    <h4>Gehäuse & Kühlung</h4>
+                    <p id="cost-case">80 €</p>
+                </div>
+            </div>
+        </section>
+
+        <h2 class="components-title">Das Hardware-Lexikon</h2>
+        <section class="component-grid">
+
+            <div class="component-card">
+                <h3>Prozessor (CPU) <span class="badge">Das Gehirn</span></h3>
+                <h4>Was macht sie?</h4>
+                <p>Die CPU berechnet alle grundlegenden Aufgaben, führt Programme aus und sagt den anderen Komponenten, was sie tun sollen. Wichtig für die FPS in Spielen und für Videobearbeitung.</p>
+                <h4>Wie benutzt man sie?</h4>
+                <p>Sie wird vorsichtig in den Sockel des Mainboards eingesetzt. Achtung auf die goldenen Pins! Danach MUSS Wärmeleitpaste und ein CPU-Kühler darauf montiert werden.</p>
+            </div>
+
+            <div class="component-card">
+                <h3>Grafikkarte (GPU) <span class="badge">Der Muskel</span></h3>
+                <h4>Was macht sie?</h4>
+                <p>Sie ist für die Grafikberechnung zuständig. Wenn du zockst, rendert sie die Bilder. Sie ist die wichtigste und teuerste Komponente in einem Gaming-PC.</p>
+                <h4>Wie benutzt man sie?</h4>
+                <p>Sie wird in den obersten PCIe-Slot des Mainboards gesteckt und mit Schrauben am Gehäuse fixiert. Vergiss nicht, die Stromkabel vom Netzteil anzuschließen!</p>
+            </div>
+
+            <div class="component-card">
+                <h3>Arbeitsspeicher (RAM) <span class="badge">Kurzzeitgedächtnis</span></h3>
+                <h4>Was macht sie?</h4>
+                <p>Hier werden Daten zwischengespeichert, die der PC *jetzt gerade* braucht (z.B. offene Browser-Tabs oder das aktive Spiel). Zu wenig RAM bringt den PC zum Ruckeln.</p>
+                <h4>Wie benutzt man sie?</h4>
+                <p>Wird in die RAM-Slots des Mainboards gedrückt, bis es "Klick" macht. Bei zwei Riegeln meistens in Slot 2 und 4 stecken (Dual-Channel-Modus!).</p>
+            </div>
+
+            <div class="component-card">
+                <h3>Festplatte (SSD / NVMe) <span class="badge">Das Archiv</span></h3>
+                <h4>Was macht sie?</h4>
+                <p>Speichert Windows, deine Spiele, Programme und privaten Dateien dauerhaft. NVMe M.2 SSDs sind winzig und extrem schnell – alte HDDs nutzt man kaum noch.</p>
+                <h4>Wie benutzt man sie?</h4>
+                <p>M.2 SSDs werden flach auf das Mainboard geschraubt oder gesteckt. SATA SSDs werden per Kabel mit Mainboard und Netzteil verbunden.</p>
+            </div>
+
+            <div class="component-card">
+                <h3>Mainboard / Motherboard <span class="badge">Das Nervensystem</span></h3>
+                <h4>Was macht sie?</h4>
+                <p>Die Hauptplatine. Sie leistet selbst keine Rechenarbeit, verbindet aber ALLE Komponenten miteinander, damit sie miteinander kommunizieren können.</p>
+                <h4>Wie benutzt man sie?</h4>
+                <p>Es wird als erstes ins PC-Gehäuse auf Abstandshalter geschraubt. Vorher sollte man aber schon CPU, RAM und M.2 SSDs darauf installieren, da man dann mehr Platz hat.</p>
+            </div>
+
+            <div class="component-card">
+                <h3>Netzteil (PSU) <span class="badge">Das Herz</span></h3>
+                <h4>Was macht sie?</h4>
+                <p>Wandelt den Strom aus der Steckdose in sicheren Strom für deine PC-Teile um. Ein schlechtes Netzteil kann im schlimmsten Fall deine gesamte Hardware zerstören!</p>
+                <h4>Wie benutzt man sie?</h4>
+                <p>Wird meistens unten im Gehäuse verbaut. Die Kabel werden sauber zu den einzelnen Komponenten (Mainboard, Grafikkarte, SSDs) verlegt.</p>
+            </div>
+
+            <div class="component-card">
+                <h3>Gehäuse & Kühlung <span class="badge">Die Rüstung</span></h3>
+                <h4>Was macht sie?</h4>
+                <p>Das Gehäuse hält alles zusammen. Lüfter und CPU-Kühler sorgen dafür, dass die Komponenten unter Last nicht überhitzen und drosseln (Throttling).</p>
+                <h4>Wie benutzt man sie?</h4>
+                <p>Achte beim Gehäusekauf darauf, dass genug Gehäuselüfter verbaut sind (Airflow). Gehäuselüfter sollten vorne Luft einsaugen und hinten/oben wieder ausblasen.</p>
+            </div>
+
+        </section>
+    </div>
+
+    <footer>
+        <p>© 2026 HardwareMaster. Orientiere dich beim Kauf immer an aktuellen Hardware-Tests!</p>
+    </footer>
+
+    <script>
+        const slider = document.getElementById('budgetSlider');
+        const budgetValue = document.getElementById('budgetValue');
+
+        // Sinnvolle prozentuale Verteilung für einen ausgewogenen Gaming-PC
+        const distribution = {
+            gpu: 0.35,     // 35% für die Grafikkarte (Wichtigste Gaming-Komponente)
+            cpu: 0.20,     // 20% für den Prozessor
+            mb: 0.12,      // 12% für das Mainboard
+            ram: 0.08,     // 8% für schnellen RAM
+            ssd: 0.08,     // 8% für schnellen SSD Speicher
+            psu: 0.09,     // 9% für ein sicheres Qualitäts-Netzteil
+            case: 0.08     // 8% für Gehäuse und Lüfter/Kühlung
+        };
+
+        function updatePrices(totalBudget) {
+            budgetValue.textContent = totalBudget;
+
+            // Berechne die Preise und zeige sie gerundet an
+            document.getElementById('cost-gpu').textContent = Math.round(totalBudget * distribution.gpu) + " €";
+            document.getElementById('cost-cpu').textContent = Math.round(totalBudget * distribution.cpu) + " €";
+            document.getElementById('cost-mb').textContent = Math.round(totalBudget * distribution.mb) + " €";
+            document.getElementById('cost-ram').textContent = Math.round(totalBudget * distribution.ram) + " €";
+            document.getElementById('cost-ssd').textContent = Math.round(totalBudget * distribution.ssd) + " €";
+            document.getElementById('cost-psu').textContent = Math.round(totalBudget * distribution.psu) + " €";
+            document.getElementById('cost-case').textContent = Math.round(totalBudget * distribution.case) + " €";
+        }
+
+        // Event-Listener reagiert sofort, wenn der Slider bewegt wird
+        slider.addEventListener('input', (e) => {
+            updatePrices(e.target.value);
+        });
+
+        // Initialer Aufruf beim Laden der Seite
+        updatePrices(slider.value);
+    </script>
+</body>
+</html>
